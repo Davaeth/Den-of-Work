@@ -18,12 +18,15 @@ class _TimerPanelState extends State<TimerPanel> {
   _TimerPanelState(this._store);
 
   @override
-  Widget build(BuildContext context) => Observer(
-        builder: (_) => Row(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: _buildTimerPanel(timerStore: _store),
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+        child: Observer(
+          builder: (_) => Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: _buildTimerPanel(timerStore: _store),
+          ),
         ),
       );
 

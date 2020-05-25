@@ -18,11 +18,15 @@ class _TimerSessionWorkTimesState extends State<TimerSessionWorkTimes> {
 
   @override
   Widget build(BuildContext context) => Observer(
-        builder: (_) => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: _store.workTimes.isNotEmpty ? _buildSessionWorkTimes() : [],
+        builder: (_) => Container(
+          height: 200.0,
+          child: ListView(
+            shrinkWrap: true,
+            reverse: true,
+            children: _store.workTimes.isNotEmpty
+                ? _buildSessionWorkTimes().toList()
+                : [],
+          ),
         ),
       );
 
@@ -37,7 +41,15 @@ class _TimerSessionWorkTimesState extends State<TimerSessionWorkTimes> {
       var currentWorkSeconds =
           _store.checkWorketTimeUseCase.checkWorkedSeconds(value: workTime);
 
-      yield Text('$currentWorkHours:$currentWorkMinutes:$currentWorkSeconds');
+      yield Center(
+        child: Text(
+          '$currentWorkHours:$currentWorkMinutes:$currentWorkSeconds',
+          style: _sessionWorkTimesStyle(),
+        ),
+      );
     }
   }
+
+  TextStyle _sessionWorkTimesStyle() =>
+      TextStyle(fontSize: 32.0, color: Colors.red);
 }

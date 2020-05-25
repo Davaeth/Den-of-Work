@@ -27,7 +27,7 @@ class Timer {
 
   void updateSessionWorkTimes() {
     _sessionWorkTimes.add(_currentWorkTime);
-    _currentWorkTime = WorkTime();
+    _currentWorkTime = WorkTime(value: _currentWorkTime.value);
   }
 
   void addTime() {
