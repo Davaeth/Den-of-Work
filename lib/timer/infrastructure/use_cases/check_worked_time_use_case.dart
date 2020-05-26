@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CheckWorketTimeUseCase {
+class CheckWorkedTimeUseCase {
   String checkWorkedHours({@required int value}) =>
       (value / 3600).floor().toString().padLeft(2, '0');
 

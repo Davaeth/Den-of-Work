@@ -33,13 +33,13 @@ class _TimerSessionWorkTimesState extends State<TimerSessionWorkTimes> {
   Iterable<Widget> _buildSessionWorkTimes() sync* {
     for (var workTime in _store.workTimes) {
       var currentWorkHours =
-          _store.checkWorketTimeUseCase.checkWorkedHours(value: workTime);
+          _store.checkWorkedTimeUseCase.checkWorkedHours(value: workTime);
 
       var currentWorkMinutes =
-          _store.checkWorketTimeUseCase.checkWorkedMinutes(value: workTime);
+          _store.checkWorkedTimeUseCase.checkWorkedMinutes(value: workTime);
 
       var currentWorkSeconds =
-          _store.checkWorketTimeUseCase.checkWorkedSeconds(value: workTime);
+          _store.checkWorkedTimeUseCase.checkWorkedSeconds(value: workTime);
 
       yield Center(
         child: Text(

@@ -1,16 +1,17 @@
 import 'dart:async';
 
+import 'package:den_of_work/timer/infrastructure/store/base/timer_store_base.dart';
 import 'package:den_of_work/timer/infrastructure/timer_state.dart';
+import 'package:den_of_work/timer/infrastructure/timer_view_model.dart';
 import 'package:den_of_work/timer/infrastructure/use_cases/check_worked_time_use_case.dart';
 import 'package:den_of_work/timer/infrastructure/use_cases/ticker_use_case.dart';
-import 'package:den_of_work/timer/ui/entities/timer.dart';
 import 'package:mobx/mobx.dart';
 
 part 'timer_store.g.dart';
 
 class TimerStore = _TimerStore with _$TimerStore;
 
-abstract class _TimerStore with Store {
+abstract class _TimerStore with Store implements TimerStoreBase {
   @observable
   TimerState timerState;
 
@@ -19,30 +20,27 @@ abstract class _TimerStore with Store {
 
   ObservableList<int> workTimes;
 
-  CheckWorketTimeUseCase checkWorketTimeUseCase;
-
-  Timer _value;
-
-  Stream<int> _timerStream;
-  StreamSubscription<int> _timerStreamSubscription;
-
   TickerUseCase _tickerUseCase;
+  CheckWorkedTimeUseCase _checkWorkedTimeUseCase;
+  CheckWorkedTimeUseCase get checkWorkedTimeUseCase => _checkWorkedTimeUseCase;
+
+  TimerViewModel _viewModel;
 
   _TimerStore() {
     timerState = TimerState.READY;
     timeInSeconds = 0;
-    checkWorketTimeUseCase = CheckWorketTimeUseCase();
     workTimes = ObservableList();
 
     _tickerUseCase = TickerUseCase();
-    _timerStream = _tickerUseCase.tick();
+    _checkWorkedTimeUseCase = CheckWorkedTimeUseCase();
 
-    _value = Timer();
+    _viewModel =
+        TimerViewModel(tickerUseCase: _tickerUseCase, timerStoreBase: this);
   }
 
   @action
   void pause() {
-    _timerStreamSubscription.pause();
+    _viewModel.pauseTimer();
 
     timerState = TimerState.PAUSED;
   }
@@ -56,39 +54,27 @@ abstract class _TimerStore with Store {
 
   @action
   void resume() {
-    _timerStreamSubscription.resume();
+    _viewModel.resumeTimer();
 
     timerState = TimerState.RUNNING;
   }
 
   @action
   void saveWorkTime() {
-    _value.updateSessionWorkTimes();
-    workTimes.add(_value.sessionWorkTimes.last.value);
+    _viewModel.saveWorkTime();
   }
 
   @action
   void start() {
-    if (_timerStream != null) {
-      _timerStream = _tickerUseCase.tick();
-      _value = Timer();
-    }
-
-    _timerStreamSubscription = _timerStream.listen(
-      (value) {
-        _value.addTime();
-        timeInSeconds = _value.currentWorkTime.value;
-      },
-    );
+    _viewModel.startTimer();
 
     timerState = TimerState.RUNNING;
   }
 
   Future<void> _dispose() async {
-    await _timerStreamSubscription.cancel();
-    workTimes.clear();
-    _value.reset();
+    await _viewModel.dispose();
 
+    workTimes.clear();
     timeInSeconds = 0;
   }
 }

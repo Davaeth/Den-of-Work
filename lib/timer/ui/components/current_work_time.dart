@@ -30,13 +30,13 @@ class _CurrentWorkTimeState extends State<CurrentWorkTime> {
           ),
           Observer(
             builder: (_) {
-              var currentWorkHours = _store.checkWorketTimeUseCase
+              var currentWorkHours = _store.checkWorkedTimeUseCase
                   .checkWorkedHours(value: _store.timeInSeconds);
 
-              var currentWorkMinutes = _store.checkWorketTimeUseCase
+              var currentWorkMinutes = _store.checkWorkedTimeUseCase
                   .checkWorkedMinutes(value: _store.timeInSeconds);
 
-              var currentWorkSeconds = _store.checkWorketTimeUseCase
+              var currentWorkSeconds = _store.checkWorkedTimeUseCase
                   .checkWorkedSeconds(value: _store.timeInSeconds);
 
               return Text(
