@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:den_of_work/timer/infrastructure/store/base/timer_store_base.dart';
-import 'package:den_of_work/timer/infrastructure/timer_state.dart';
-import 'package:den_of_work/timer/infrastructure/timer_view_model.dart';
-import 'package:den_of_work/timer/infrastructure/use_cases/check_worked_time_use_case.dart';
-import 'package:den_of_work/timer/infrastructure/use_cases/ticker_use_case.dart';
+import 'package:den_of_work/infrastructure/base/timer_store_base.dart';
+import 'package:den_of_work/infrastructure/timer/timer_state.dart';
+import 'package:den_of_work/infrastructure/timer/timer_view_model.dart';
+import 'package:den_of_work/infrastructure/timer/use_cases/check_worked_time_use_case.dart';
+import 'package:den_of_work/infrastructure/timer/use_cases/ticker_use_case.dart';
 import 'package:mobx/mobx.dart';
 
 part 'timer_store.g.dart';
@@ -18,7 +18,7 @@ abstract class _TimerStore with Store implements TimerStoreBase {
   @observable
   int timeInSeconds;
 
-  ObservableList<int> workTimes;
+  ObservableMap<String, int> workTimes;
 
   TickerUseCase _tickerUseCase;
   CheckWorkedTimeUseCase _checkWorkedTimeUseCase;
@@ -29,7 +29,7 @@ abstract class _TimerStore with Store implements TimerStoreBase {
   _TimerStore() {
     timerState = TimerState.READY;
     timeInSeconds = 0;
-    workTimes = ObservableList();
+    workTimes = ObservableMap();
 
     _tickerUseCase = TickerUseCase();
     _checkWorkedTimeUseCase = CheckWorkedTimeUseCase();
@@ -61,7 +61,7 @@ abstract class _TimerStore with Store implements TimerStoreBase {
 
   @action
   void saveWorkTime() {
-    _viewModel.saveWorkTime();
+    _viewModel.saveWorkTime('Test');
   }
 
   @action

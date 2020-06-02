@@ -1,32 +1,33 @@
-import 'package:den_of_work/timer/domain/value_objects/workt_time.dart';
+import 'package:den_of_work/domain/value_objects/workt_time.dart';
 
 class Timer {
   static const String _key = "TIMER_KEY";
   static final Map<String, Timer> _cache = <String, Timer>{};
 
   WorkTime _currentWorkTime;
-  List<WorkTime> _sessionWorkTimes;
+  Map<String, WorkTime> _sessionWorkTimes;
 
   factory Timer() {
     return _cache.putIfAbsent(
       _key,
       () => Timer._internal(
         currentWorkTime: WorkTime(),
-        sessionWorkTimes: [],
+        sessionWorkTimes: Map<String, WorkTime>(),
       ),
     );
   }
 
-  Timer._internal({WorkTime currentWorkTime, List<WorkTime> sessionWorkTimes})
+  Timer._internal(
+      {WorkTime currentWorkTime, Map<String, WorkTime> sessionWorkTimes})
       : this._currentWorkTime = currentWorkTime,
         this._sessionWorkTimes = sessionWorkTimes;
 
   WorkTime get currentWorkTime => _currentWorkTime;
 
-  List<WorkTime> get sessionWorkTimes => _sessionWorkTimes;
+  Map<String, WorkTime> get sessionWorkTimes => _sessionWorkTimes;
 
-  void updateSessionWorkTimes() {
-    _sessionWorkTimes.add(_currentWorkTime);
+  void updateSessionWorkTimes(String workTimeTitle) {
+    _sessionWorkTimes.putIfAbsent(workTimeTitle, () => _currentWorkTime);
     _currentWorkTime = WorkTime(value: _currentWorkTime.value);
   }
 

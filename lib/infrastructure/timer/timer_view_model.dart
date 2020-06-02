@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:den_of_work/timer/infrastructure/store/base/timer_store_base.dart';
-import 'package:den_of_work/timer/infrastructure/use_cases/ticker_use_case.dart';
-import 'package:den_of_work/timer/ui/entities/timer.dart';
+import 'package:den_of_work/infrastructure/base/timer_store_base.dart';
+import 'package:den_of_work/ui/timer/entities/timer.dart';
+
+import 'use_cases/ticker_use_case.dart';
 
 class TimerViewModel {
   TickerUseCase _tickerUseCase;
@@ -37,9 +38,12 @@ class TimerViewModel {
     _timerStreamSubscription.resume();
   }
 
-  void saveWorkTime() {
-    _value.updateSessionWorkTimes();
-    _timerStore.workTimes.add(_value.sessionWorkTimes.last.value);
+  void saveWorkTime(String workTimeTitle) {
+    _value.updateSessionWorkTimes(workTimeTitle);
+    _timerStore.workTimes.putIfAbsent(
+      workTimeTitle,
+      () => _value.sessionWorkTimes.values.last.value,
+    );
   }
 
   void startTimer() {
@@ -56,7 +60,8 @@ class TimerViewModel {
   void _readSessionWorkTimesFromCache() {
     if (_value.sessionWorkTimes.isNotEmpty) {
       _value.sessionWorkTimes.forEach(
-        (element) => _timerStore.workTimes.add(element.value),
+        (key, value) =>
+            _timerStore.workTimes.putIfAbsent(key, () => value.value),
       );
     }
   }

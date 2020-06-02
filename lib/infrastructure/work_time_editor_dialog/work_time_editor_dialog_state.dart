@@ -1,0 +1,1 @@
+enum WorkTimeEditorDialogState { CREATING, EDITING }
