@@ -7,7 +7,7 @@ import 'work_time_editor_dialog_state.dart';
 part 'work_time_editor_dialog_store.g.dart';
 
 class WorkTimeEditorDialogStore = _WorkTimeEditorDialogStore
-    with _$_WorkTimeEditorDialogStore;
+    with _$WorkTimeEditorDialogStore;
 
 abstract class _WorkTimeEditorDialogStore
     with Store
