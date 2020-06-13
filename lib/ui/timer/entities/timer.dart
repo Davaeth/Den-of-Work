@@ -1,4 +1,4 @@
-import 'package:den_of_work/domain/value_objects/workt_time.dart';
+import 'package:den_of_work_domain/entities/value_objects/work_time.dart';
 
 class Timer {
   static const String _key = "TIMER_KEY";

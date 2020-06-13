@@ -1,4 +1,4 @@
-package com.example.den_of_work
+package com.davaeth.den_of_work
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

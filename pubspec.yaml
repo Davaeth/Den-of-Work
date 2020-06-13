@@ -24,6 +24,9 @@ dependencies:
   equatable: ^1.1.1
   provider: ^4.1.1
   cupertino_icons: ^0.1.2
+  den_of_work_domain:
+    git:
+      url: https://github.com/Davaeth/Den-Of-Work-domain
 
 dev_dependencies:
   flutter_test:
